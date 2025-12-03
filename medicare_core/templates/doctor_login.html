@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-lg mt-5 border-0">
+            <div class="card-header bg-info text-white text-center">
+                <h3><i class="fas fa-user-md"></i> Doctor Portal</h3>
+            </div>
+            <div class="card-body p-4 bg-light">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control" required placeholder="Dr. Username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-info text-white btn-lg fw-bold">Doctor Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Not a doctor? <a href="{% url 'patient_login' %}" class="text-info fw-bold">Patient
+                        Login</a>
+                </p>
+                <p class="mt-2 small"><a href="{% url 'doctor_signup' %}" class="text-muted">New Doctor? Register
+                        here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

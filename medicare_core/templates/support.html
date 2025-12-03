@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-5">
+        <h1 class="display-4">Support Center</h1>
+        <p class="lead">We are here to help you 24/7.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4 border-primary">
+            <div class="card-body">
+                <i class="fas fa-book-open fa-3x text-primary mb-3"></i>
+                <h4>User Guide</h4>
+                <p>Read our documentation to learn how to use the app.</p>
+                <a href="#" class="btn btn-outline-primary">Read Guide</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4 border-success">
+            <div class="card-body">
+                <i class="fas fa-comments fa-3x text-success mb-3"></i>
+                <h4>Live Chat</h4>
+                <p>Chat with our support team in real-time.</p>
+                <a href="#" class="btn btn-outline-success">Start Chat</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4 border-warning">
+            <div class="card-body">
+                <i class="fas fa-question-circle fa-3x text-warning mb-3"></i>
+                <h4>FAQs</h4>
+                <p>Find answers to frequently asked questions.</p>
+                <a href="#" class="btn btn-outline-warning">View FAQs</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

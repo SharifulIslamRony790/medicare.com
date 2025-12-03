@@ -1,0 +1,70 @@
+"""
+URL configuration for medicare_core project.
+"""
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from users.views import UserViewSet
+from patients.views import PatientViewSet
+from doctors.views import DoctorViewSet
+from appointments.views import AppointmentViewSet
+from prescriptions.views import PrescriptionViewSet
+from billing.views import InvoiceViewSet
+from medicare_core.views import home, contact, support, privacy
+from patients.views import patient_list, patient_add, patient_detail
+from doctors.views import doctor_list, doctor_add
+from appointments.views import appointment_list, appointment_add, appointment_complete
+from prescriptions.views import prescription_list, prescription_add, prescription_pdf
+from billing.views import invoice_list, invoice_add, invoice_detail, payment_select, payment_process, payment_success, payment_receipt_pdf
+from users.views import login_view, signup_view, logout_view, settings_view, doctor_signup_view, doctor_login_view, admin_login_view, admin_signup_view, patient_login_view, patient_signup_view
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'patients', PatientViewSet)
+router.register(r'doctors', DoctorViewSet)
+router.register(r'appointments', AppointmentViewSet)
+router.register(r'prescriptions', PrescriptionViewSet)
+router.register(r'billing', InvoiceViewSet)
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('', home, name='home'),
+    path('patients/', patient_list, name='patient_list'),
+    path('patients/add/', patient_add, name='patient_add'),
+    path('patients/<int:pk>/', patient_detail, name='patient_detail'),
+    path('doctors/', doctor_list, name='doctor_list'),
+    path('doctors/add/', doctor_add, name='doctor_add'),
+    path('appointments/', appointment_list, name='appointment_list'),
+    path('appointments/add/', appointment_add, name='appointment_add'),
+    path('appointments/<int:pk>/complete/', appointment_complete, name='appointment_complete'),
+    path('prescriptions/', prescription_list, name='prescription_list'),
+    path('prescriptions/add/', prescription_add, name='prescription_add'),
+    path('prescriptions/<int:pk>/pdf/', prescription_pdf, name='prescription_pdf'),
+    path('billing/', invoice_list, name='invoice_list'),
+    path('billing/add/', invoice_add, name='invoice_add'),
+    path('billing/<int:pk>/', invoice_detail, name='invoice_detail'),
+    path('billing/<int:invoice_id>/pay/', payment_select, name='payment_select'),
+    path('billing/<int:invoice_id>/pay/<str:method>/', payment_process, name='payment_process'),
+    path('billing/<int:invoice_id>/success/', payment_success, name='payment_success'),
+    path('billing/payment/<int:payment_id>/receipt/', payment_receipt_pdf, name='payment_receipt_pdf'),
+    path('login/', login_view, name='login'),
+    path('login/patient/', patient_login_view, name='patient_login'),
+    path('login/doctor/', doctor_login_view, name='doctor_login'),
+    path('login/admin/', admin_login_view, name='admin_login'),
+    path('signup/', signup_view, name='signup'),
+    path('signup/patient/', patient_signup_view, name='patient_signup'),
+    path('signup/doctor/', doctor_signup_view, name='doctor_signup'),
+    path('signup/admin/', admin_signup_view, name='admin_signup'),
+    path('logout/', logout_view, name='logout'),
+    path('settings/', settings_view, name='settings'),
+    path('contact/', contact, name='contact'),
+    path('support/', support, name='support'),
+    path('privacy/', privacy, name='privacy'),
+]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

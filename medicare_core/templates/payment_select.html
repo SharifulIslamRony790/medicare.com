@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Select Payment Method</h2>
+            <p class="text-muted">Choose how you want to pay for Invoice #{{ invoice.id }}</p>
+            <h3 class="text-primary fw-bold">${{ invoice.amount }}</h3>
+        </div>
+
+        <div class="row g-4">
+            <!-- Cards -->
+            <div class="col-md-6">
+                <a href="{% url 'payment_process' invoice.id 'visa' %}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow text-center p-4">
+                        <div class="card-body">
+                            <i class="fab fa-cc-visa fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title text-dark">Visa Card</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="{% url 'payment_process' invoice.id 'mastercard' %}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow text-center p-4">
+                        <div class="card-body">
+                            <i class="fab fa-cc-mastercard fa-3x text-danger mb-3"></i>
+                            <h5 class="card-title text-dark">MasterCard</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Mobile Banking -->
+            <div class="col-md-6">
+                <a href="{% url 'payment_process' invoice.id 'bkash' %}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow text-center p-4">
+                        <div class="card-body">
+                            <div class="mb-3 fw-bold text-danger fs-3" style="font-family: sans-serif;">bKash</div>
+                            <h5 class="card-title text-dark">bKash</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="{% url 'payment_process' invoice.id 'nagad' %}" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow text-center p-4">
+                        <div class="card-body">
+                            <div class="mb-3 fw-bold text-warning fs-3" style="font-family: sans-serif;">Nagad</div>
+                            <h5 class="card-title text-dark">Nagad</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'invoice_detail' invoice.id %}" class="text-muted">Cancel and return to invoice</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

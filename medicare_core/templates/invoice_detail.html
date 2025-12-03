@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-white p-4 border-bottom">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0 fw-bold text-primary">INVOICE</h4>
+                        <p class="text-muted mb-0">#{{ invoice.id }}</p>
+                    </div>
+                    <div class="text-end">
+                        <h5 class="mb-0">{{ invoice.date }}</h5>
+                        <span class="badge bg-{{ invoice.is_paid|yesno:'success,danger' }} fs-6">
+                            {{ invoice.is_paid|yesno:'PAID,UNPAID' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div class="row mb-4">
+                    <div class="col-sm-6">
+                        <h6 class="text-uppercase text-muted small fw-bold">Billed To:</h6>
+                        <h5 class="fw-bold">{{ invoice.patient.name }}</h5>
+                        <p class="text-muted">{{ invoice.patient.address }}<br>{{ invoice.patient.phone }}</p>
+                    </div>
+                    <div class="col-sm-6 text-sm-end">
+                        <h6 class="text-uppercase text-muted small fw-bold">Total Amount:</h6>
+                        <h3 class="text-primary fw-bold">${{ invoice.amount }}</h3>
+                    </div>
+                </div>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ invoice.items|linebreaks }}</td>
+                                <td class="text-end fw-bold">${{ invoice.amount }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {% if not invoice.is_paid %}
+                <div class="d-grid gap-2">
+                    <a href="{% url 'payment_select' invoice.id %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-credit-card me-2"></i> Pay Now
+                    </a>
+                </div>
+                {% else %}
+                <div class="alert alert-success text-center">
+                    <i class="fas fa-check-circle me-2"></i> This invoice has been paid.
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-light p-4 text-center text-muted small">
+                Thank you for choosing MediCare.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

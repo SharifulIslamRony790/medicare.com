@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2><i class="fas fa-file-invoice-dollar text-danger"></i> Billing Invoices</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        {% if user.role == 'admin' or user.role == 'staff' %}
+        <a href="{% url 'invoice_add' %}" class="btn btn-danger text-white"><i class="fas fa-plus"></i> Create
+            Invoice</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td>#{{ invoice.id }}</td>
+                    <td>{{ invoice.date }}</td>
+                    <td>{{ invoice.patient.name }}</td>
+                    <td>${{ invoice.amount }}</td>
+                    <td>
+                        <span class="badge bg-{{ invoice.is_paid|yesno:'success,danger' }}">
+                            {{ invoice.is_paid|yesno:'Paid,Unpaid' }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'invoice_detail' invoice.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No invoices found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
