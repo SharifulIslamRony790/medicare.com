@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 
 {% block title %}Doctor Sign Up - MediCare{% endblock %}
 
@@ -33,6 +34,12 @@
 
                     <div class="d-grid gap-2 mt-4">
                         <button type="submit" class="btn btn-primary btn-lg">Register as Doctor</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p class="text-muted">OR</p>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100">
+                            <i class="fab fa-google me-2"></i> Sign up with Google
+                        </a>
                     </div>
                 </form>
 

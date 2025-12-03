@@ -28,6 +28,7 @@ router.register(r'billing', InvoiceViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('api/', include(router.urls)),
     path('', home, name='home'),
     path('patients/', patient_list, name='patient_list'),

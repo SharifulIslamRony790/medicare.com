@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -105,6 +106,12 @@
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success text-white btn-lg fw-bold">Create Patient
                             Account</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p class="text-muted">OR</p>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100">
+                            <i class="fab fa-google me-2"></i> Sign up with Google
+                        </a>
                     </div>
                 </form>
             </div>
