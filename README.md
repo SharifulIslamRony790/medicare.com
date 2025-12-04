@@ -11,6 +11,7 @@ MediCare is a comprehensive, web-based clinic management system designed to stre
 - **Prescription Management**: Digital prescription generation with PDF download capability (Doctor only).
 - **Billing & Invoices**: Integrated billing system with support for multiple payment methods (Visa, bKash, Nagad) and PDF receipts.
 - **Secure Authentication**: Robust login/signup system with role verification.
+- **Google Sign-In**: Integrated Google OAuth 2.0 for fast and secure login/signup.
 - **Responsive Design**: Mobile-friendly interface built with Bootstrap 5.
 - **REST API**: Fully functional API for future mobile app integration.
 
@@ -66,7 +67,27 @@ EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
 ```
 
-## 6. Settings Summary
+## 6. Google OAuth Setup
+To enable "Log in with Google":
+1.  **Google Cloud Console**:
+    -   Create a project and configure the OAuth Consent Screen.
+    -   Create OAuth Credentials (Client ID & Secret).
+    -   Add `http://localhost:8000` to Authorized JavaScript origins.
+    -   Add `http://localhost:8000/accounts/google/login/callback/` to Authorized redirect URIs.
+
+2.  **Django Admin Configuration**:
+    -   Go to [http://localhost:8000/admin/socialaccount/socialapp/](http://localhost:8000/admin/socialaccount/socialapp/).
+    -   Add a new **Social Application**.
+    -   **Provider**: Google
+    -   **Name**: Google
+    -   **Client ID**: (Your Google Client ID)
+    -   **Secret Key**: (Your Google Client Secret)
+    -   **Sites**: Add `localhost:8000` (or your site) to "Chosen sites".
+
+3.  **Local Secrets Backup (Optional)**:
+    -   Store your Client ID and Secret in a local `secrets.json` file (added to `.gitignore`) to keep them safe and accessible.
+
+## 7. Settings Summary
 The project settings are configured in `medicare_core/settings.py`. Key configurations include:
 - **INSTALLED_APPS**: Includes custom apps `users`, `patients`, `doctors`, `appointments`, `prescriptions`, `billing`.
 - **MIDDLEWARE**: Standard Django middleware plus custom role-based access controls.
@@ -74,7 +95,7 @@ The project settings are configured in `medicare_core/settings.py`. Key configur
 - **STATIC/MEDIA**: Configured for serving static files and user-uploaded media (profile pictures, reports).
 - **AUTH_USER_MODEL**: Custom user model `users.User` used for authentication.
 
-## 7. Run Locally
+## 8. Run Locally
 To run the development server:
 
 ```bash
@@ -87,7 +108,7 @@ Access the application at: [http://localhost:8000](http://localhost:8000)
 - **Doctor Login**: [http://localhost:8000/login/doctor/](http://localhost:8000/login/doctor/)
 - **Admin Login**: [http://localhost:8000/login/admin/](http://localhost:8000/login/admin/)
 
-## 8. Project Structure
+## 9. Project Structure
 ```
 MediCare/
 ├── medicare_core/      # Project configuration & core views
@@ -104,14 +125,14 @@ MediCare/
 └── requirements.txt    # Project dependencies
 ```
 
-## 9. Production Tips
+## 10. Production Tips
 - **Debug Mode**: Ensure `DEBUG=False` in production.
 - **Database**: Switch to PostgreSQL for better performance and reliability.
 - **Static Files**: Use `whitenoise` or Nginx to serve static files efficiently.
 - **Security**: Set a strong `SECRET_KEY` and configure `ALLOWED_HOSTS`.
 - **HTTPS**: Always use HTTPS (SSL) to secure user data.
 
-## 10. Credits
+## 11. Credits
 Developed by Md. Shariful Islam Rony.
 - **Frameworks**: Django, Bootstrap
 - **Icons**: FontAwesome
