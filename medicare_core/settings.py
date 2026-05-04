@@ -148,6 +148,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ],
 }
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'medicare_core/static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
