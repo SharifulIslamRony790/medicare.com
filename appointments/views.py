@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from .models import Appointment
 from .serializers import AppointmentSerializer
 from .forms import AppointmentForm
@@ -13,19 +14,20 @@ from django.conf import settings
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    permission_classes = [IsAuthenticated]
 
 # UI Views
 @login_required
 def appointment_list(request):
     # Filter to show only logged-in user's appointments
     if hasattr(request.user, 'patient_profile'):
-        appointments = Appointment.objects.filter(patient=request.user.patient_profile).order_by('-date', '-time')
+        appointments = Appointment.objects.filter(patient=request.user.patient_profile).select_related('doctor', 'patient').order_by('-date', '-time')
     elif hasattr(request.user, 'doctor_profile'):
         # Doctors see appointments booked with them
-        appointments = Appointment.objects.filter(doctor=request.user.doctor_profile).order_by('-date', '-time')
+        appointments = Appointment.objects.filter(doctor=request.user.doctor_profile).select_related('doctor', 'patient').order_by('-date', '-time')
     else:
         # Admin/staff can see all appointments
-        appointments = Appointment.objects.all().order_by('-date', '-time')
+        appointments = Appointment.objects.all().select_related('doctor', 'patient').order_by('-date', '-time')
     return render(request, 'appointment_list.html', {'appointments': appointments})
 
 @login_required

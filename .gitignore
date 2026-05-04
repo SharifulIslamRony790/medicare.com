@@ -19,6 +19,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Secrets
+secrets.json
+
 # IDEs
 .vscode/
 .idea/

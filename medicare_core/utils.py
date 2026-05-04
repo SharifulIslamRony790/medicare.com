@@ -12,10 +12,10 @@ def generate_profile_image(name_seed):
     url = f"https://api.dicebear.com/7.x/avataaars/png?seed={name_seed}"
     
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         if response.status_code == 200:
             return ContentFile(response.content, name=f"{name_seed}.png")
-    except Exception as e:
+    except requests.RequestException as e:
         print(f"Error generating image: {e}")
     
     return None

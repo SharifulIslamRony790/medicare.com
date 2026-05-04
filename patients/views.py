@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from .models import Patient
 from .serializers import PatientSerializer
 from .forms import PatientForm
@@ -10,6 +11,7 @@ from .forms import PatientForm
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    permission_classes = [IsAuthenticated]
 
 # UI Views
 @login_required
@@ -17,7 +19,7 @@ def patient_list(request):
     # Admin/superuser, staff, and doctors can see patient list
     if not (request.user.is_superuser or request.user.role in ['admin', 'staff', 'doctor']):
         return HttpResponseForbidden("You don't have permission to access this page.")
-    patients = Patient.objects.all().order_by('-created_at')
+    patients = Patient.objects.select_related('user').all().order_by('-created_at')
     return render(request, 'patient_list.html', {'patients': patients})
 
 @login_required

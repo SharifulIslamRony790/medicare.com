@@ -6,6 +6,7 @@ User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
     # Patient details
+    name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     age = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-control'}))
     gender = forms.ChoiceField(
         choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')],
@@ -17,7 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ('username', 'email', 'age', 'gender', 'phone', 'address', 'password1', 'password2')
+        fields = ('username', 'email', 'name', 'age', 'gender', 'phone', 'address', 'password1', 'password2')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),

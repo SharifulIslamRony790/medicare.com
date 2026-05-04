@@ -109,7 +109,7 @@ def patient_signup_view(request):
             from patients.models import Patient
             Patient.objects.create(
                 user=user,
-                name=user.username,
+                name=form.cleaned_data['name'],
                 age=form.cleaned_data['age'],
                 gender=form.cleaned_data['gender'],
                 phone=form.cleaned_data['phone'],

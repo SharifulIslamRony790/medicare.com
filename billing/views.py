@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from .models import Invoice, Payment
 from .serializers import InvoiceSerializer
 from .forms import InvoiceForm
@@ -20,16 +21,17 @@ from django.conf import settings
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
+    permission_classes = [IsAuthenticated]
 
 # UI Views
 @login_required
 def invoice_list(request):
     # Filter to show only logged-in user's invoices
     if hasattr(request.user, 'patient_profile'):
-        invoices = Invoice.objects.filter(patient=request.user.patient_profile).order_by('-date')
+        invoices = Invoice.objects.filter(patient=request.user.patient_profile).select_related('patient', 'appointment').order_by('-date')
     else:
         # Admin/staff can see all invoices
-        invoices = Invoice.objects.all().order_by('-date')
+        invoices = Invoice.objects.all().select_related('patient', 'appointment').order_by('-date')
     return render(request, 'invoice_list.html', {'invoices': invoices})
 
 @login_required
